@@ -1,0 +1,69 @@
+# This is an example goreleaser.yaml file with some sane defaults.
+# Make sure to check the documentation at http://goreleaser.com
+
+project_name: pushover-cli
+
+before:
+  hooks:
+    # you may remove this if you don't need go generate
+    - go generate ./...
+
+builds:
+  -
+    binary: pushover-cli
+    flags:
+      - -mod=vendor
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - 386
+      - amd64
+
+archives:
+  -
+    replacements:
+      darwin: darwin
+      linux: linux
+      windows: windows
+      386: i386
+      amd64: amd64
+    format_overrides:
+      - goos: windows
+        format: zip
+
+checksum:
+  name_template: 'checksums.txt'
+
+snapshot:
+  name_template: "{{ .Tag }}-next"
+
+snapcrafts:
+  -
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    replacements:
+      amd64: 64-bit
+      386: 32-bit
+      darwin: macOS
+      linux: Tux
+    publish: true
+    summary: Unofficial CLI to send messages with pushover.net.
+    description: Go based command line tool for message sending over pushover.net without any additional dependencies.
+    grade: stable
+    confinement: strict
+
+signs:
+  -
+    artifacts: checksum
+    cmd: gpg
+    args: ["-u", "A6349E78C6E207654029D63D684AF415E326EE40", "--output", "${signature}", "--detach-sign", "${artifact}"]
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
