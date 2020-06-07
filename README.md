@@ -158,7 +158,7 @@ The following command can be used to request the current rate limits:
 ```bash
 pushover-cli limits
 
-# > 2020-06-07T13:59:47+02:00 INF Message pushed request=a9ee72c0-1e76-476a-bfa5-d421dcd6acca status=1
+# > 2020-06-07T17:28:51+02:00 INF Rate limit information requests-per-month=7500 requests-remaining=7461 reset-at=2020-07-01T05:00:00Z
 ```
 
 ### Sending text via images
