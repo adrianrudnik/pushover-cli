@@ -54,6 +54,15 @@ snapcrafts:
     description: Go based command line tool for message sending over pushover.net without any additional dependencies.
     grade: stable
     confinement: strict
+    apps:
+      pushover-cli:
+        plugs: ["personal-files", "network"]
+    plugs:
+      personal-files:
+        read:
+          - $HOME/.config/pushover-cli
+        write:
+          - $HOME/.config/pushover-cli
 
 signs:
   -
