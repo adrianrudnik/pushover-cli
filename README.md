@@ -1,6 +1,20 @@
 # pushover-cli
 
-Unofficial CLI to send messages with pushover.net on Windows, Linux and MacOS.
+- [Installation](#installation)
+  - [Download](#download)
+  - [Snap](#snap)
+  - [Build it from sources](#build-it-from-sources)
+- [Configuration](#configuration)
+  - [Environment variables](#environment-variables)
+  - [Configuration files](#configuration-files)
+- [Usage](#usage)
+  - [Getting help](#getting-help)
+  - [Push messages](#push-messages)
+  - [Rate limits](#rate-limits)
+  - [Sending text via images](#sending-text-via-images)
+- [Related documentations](#related-documentations)
+
+Unofficial CLI to send messages with [pushover.net](https://pushover.net/) on Windows, Linux and MacOS.
 
 ## Installation
 
@@ -16,7 +30,10 @@ Download a package directly from the [release page](https://github.com/adrianrud
 snap install pushover-cli
 ```
 
-There are some  small limitations to using file configurations with snaps. You can still use `pushover-cli config setup` to create a configuration file, but you can not use any other location as a fallback as this snap is operating in `strict` mode.
+There are some  small limitations to using file configurations with snaps.:
+
+- You can still use `pushover-cli config setup` to create a configuration file, but you can not use any other location as a fallback as this snap is operating in `strict` mode.
+- Attaching files is not easily done as the snap does not have access to paths inside home.
 
 If unsure, I would recommend to use environment variables instead when operating outside the confined snap home.
 
@@ -144,6 +161,38 @@ pushover-cli limits
 # > 2020-06-07T13:59:47+02:00 INF Message pushed request=a9ee72c0-1e76-476a-bfa5-d421dcd6acca status=1
 ```
 
-# Related documentations
+### Sending text via images
+
+As there is a pretty hard limiton 1024 characters for push messages, you still might want to transport formatted text information.
+
+On Linux you can easily convert text to an image. Please understand that this can allow anyone on the console to convert text information to image and do something with it, this might have security implications, so do it at your own risk.
+
+First ensure that youz have ImageMagick installed via `convert --version` and that your desired files are allowed to convert by ensureing a policy *like* this exists in your `/etc/ImageMagick-{version}/policy.xml`:
+
+```xml
+<policy domain="path" rights="all" pattern="@*.log" />
+```
+
+After that we can try to convert a text-snipped into an image:
+
+```bash
+convert \
+  -size 4000x4000 xc:white \
+  -font "FreeMono" \
+  -pointsize 12 \
+  -fill black \
+  -annotate +15+30 "@your.log" \
+  -trim \
+  -bordercolor "#FFF" \
+  -border 10 \
+  +repage \
+  result.png
+
+pushover-cli push --attachment result.png "daily report"
+```
+
+Please be graceful with the maxmium size of the image, the given example of `4000x4000` is just the maximum that could be reached, the finak `+repage` will reduce the image size to the actual content while still respecting the maximum size.
+
+## Related documentations
 
 https://pushover.net/api
