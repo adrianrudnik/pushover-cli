@@ -16,12 +16,16 @@ Download a package directly from the [release page](https://github.com/adrianrud
 snap install pushover-cli
 ```
 
+There are some  small limitations to using file configurations with snaps. You can still use `pushover-cli config setup` to create a configuration file, but you can not use any other location as a fallback as this snap is operating in `strict` mode.
+
+If unsure, I would recommend to use environment variables instead when operating outside the confined snap home.
+
 ### Build it from sources
 
 Download or clone the sources and build it with:
 
 ```bash
-go build -mod=vendor -o pushover .
+go build -mod=vendor .
 ./pushover --version
 ```
 
