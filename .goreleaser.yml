@@ -56,13 +56,7 @@ snapcrafts:
     confinement: strict
     apps:
       pushover-cli:
-        plugs: ["personal-files", "network"]
-    plugs:
-      personal-files:
-        read:
-          - $HOME/.config/pushover-cli
-        write:
-          - $HOME/.config/pushover-cli
+        plugs: ["network"]
 
 signs:
   -
