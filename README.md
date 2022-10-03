@@ -14,11 +14,11 @@
   - [Sending text via images](#sending-text-via-images)
 - [Related documentations](#related-documentations)
 
-Unofficial CLI to send messages with [pushover.net](https://pushover.net/) on Windows, Linux and MacOS.
+Unofficial CLI to send messages with [pushover.net](https://pushover.net/) on Windows, Linux and macOS.
 
 ## Installation
 
-You can use one of hte following methods:
+The following installation channels are available:
 
 ### Download
 
@@ -32,7 +32,7 @@ snap install pushover-cli
 
 There are some  small limitations to using file configurations with snaps.:
 
-- You can still use `pushover-cli config setup` to create a configuration file, but you can not use any other location as a fallback as this snap is operating in `strict` mode.
+- You can still use `pushover-cli config setup` to create a configuration file, but you cannot use any other location as a fallback, as this snap is operating in `strict` mode.
 - Attaching files is not easily done as the snap does not have access to paths inside home.
 
 If unsure, I would recommend to use environment variables instead when operating outside the confined snap home.
@@ -48,11 +48,11 @@ go build -mod=vendor .
 
 ## Configuration
 
-### Environment variables
-
 There are two ways to pass on your pushover credentials: Environment variables or a configuration file.
 
-The setup for environment varialbes is pretty straigt forward, set the following ones and they will be picked up by this tool.
+### Environment variables
+
+The setup for environment variables is pretty straightforward, set the following ones, and they will be picked up by this tool.
 
 | Variable          | Description |
 | ----------------- | ----------- |
@@ -61,9 +61,9 @@ The setup for environment varialbes is pretty straigt forward, set the following
 
 ### Configuration files
 
-You can also setup configuration files.
+A configuration file can be easily be configured.
 
-There is a small wizard to help you create a valid configuration file nearest to the next configuration folder for the current user profile:
+There is a small wizard to help you create a valid configuration file in your current user profile folder.
 
 ```bash
 pushover-cli config setup
@@ -73,7 +73,7 @@ pushover-cli config setup
 # > 2020-06-07T12:36:48+02:00 INF Config saved path=/home/adrian/.config/pushover-cli/config.json
 ```
 
-The `config.json` can be placed into different locations, to see all available use the following command:
+The `config.json` will be picked up in different locations, to get a list of all recognized, see all available use the following command:
 
 ```bash
 pushover-cli config paths
@@ -106,7 +106,7 @@ pushover-cli help config
 
 ### Push messages
 
-To get an overview of all possible flags you can use `pushover-cli help send` or read through the overview here:
+To get an overview of all possible flags, see `pushover-cli help send` or read through the overview here:
 
 ```
 Flags:
@@ -163,15 +163,18 @@ pushover-cli limits
 
 ### Sending text via images
 
-As there is a pretty hard limiton 1024 characters for push messages, you still might want to transport formatted text information.
+Push messages are limited to 1024 characters. A way to transport a longer or preformatted text is to send it as an image.
 
-On Linux you can easily convert text to an image. Please understand that this can allow anyone on the console to convert text information to image and do something with it, this might have security implications, so do it at your own risk.
+This example is based on ImageMagick on Linux, but should be easily adaptable to other operating systems.
 
-First ensure that youz have ImageMagick installed via `convert --version` and that your desired files are allowed to convert by ensureing a policy *like* this exists in your `/etc/ImageMagick-{version}/policy.xml`:
+```bash
+First, ensure that you have ImageMagick installed via `convert --version` and that your desired files are allowed to convert by checking a policy *like* this exists in your `/etc/ImageMagick-{version}/policy.xml`:
 
 ```xml
 <policy domain="path" rights="all" pattern="@*.log" />
 ```
+
+Please understand that this might be considered a security risk, as anyone could use the same technique to do simple text to image conversions, that then might leave the system.
 
 After that we can try to convert a text-snipped into an image:
 
@@ -191,7 +194,7 @@ convert \
 pushover-cli push --attachment result.png "daily report"
 ```
 
-Please be graceful with the maxmium size of the image, the given example of `4000x4000` is just the maximum that could be reached, the finak `+repage` will reduce the image size to the actual content while still respecting the maximum size.
+Please be graceful with the maximum size of the image, the given example of `4000x4000` is just the maximum that could be reached, the final `+repage` will reduce the image size to the actual content while still respecting the maximum size.
 
 ## Related documentations
 
