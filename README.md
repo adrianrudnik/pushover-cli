@@ -167,7 +167,6 @@ Push messages are limited to 1024 characters. A way to transport a longer or pre
 
 This example is based on ImageMagick on Linux, but should be easily adaptable to other operating systems.
 
-```bash
 First, ensure that you have ImageMagick installed via `convert --version` and that your desired files are allowed to convert by checking a policy *like* this exists in your `/etc/ImageMagick-{version}/policy.xml`:
 
 ```xml
