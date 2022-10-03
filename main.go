@@ -1,8 +1,6 @@
 package main
 
-import (
-	"github.com/adrianrudnik/pushover-cli/cmd"
-)
+import "github.com/adrianrudnik/pushover-cli/cmd"
 
 var (
 	// goreleaser ldflags
