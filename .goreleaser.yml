@@ -11,18 +11,19 @@ before:
 builds:
   -
     binary: pushover-cli
-    flags:
-      - -mod=vendor
     env:
       - CGO_ENABLED=0
     goos:
       - linux
+      - freebsd
       - darwin
       - windows
     goarch:
-      - 386
       - amd64
-
+      - arm64
+    goarm:
+      - '6'
+      - '7'
 archives:
   -
     replacements:
@@ -41,14 +42,12 @@ checksum:
 snapshot:
   name_template: "{{ .Tag }}-next"
 
+universal_binaries:
+  - replace: true
+
 snapcrafts:
   -
     name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
-    replacements:
-      amd64: 64-bit
-      386: 32-bit
-      darwin: macOS
-      linux: Tux
     publish: true
     summary: Unofficial CLI to send messages with pushover.net.
     description: Go based command line tool for message sending over pushover.net without any additional dependencies.
